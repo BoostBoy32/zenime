@@ -21,6 +21,7 @@ import SidecardLoader from "@/src/components/Loader/Sidecard.loader";
 import Voiceactor from "@/src/components/voiceactor/Voiceactor";
 import Watchcontrols from "@/src/components/watchcontrols/Watchcontrols";
 import useWatchControl from "@/src/hooks/useWatchControl";
+import VerificationPopup from "@/src/components/VerificationPopup";
 
 export default function Watch() {
   const location = useLocation();
@@ -170,6 +171,7 @@ export default function Watch() {
   }, [animeId, animeInfo]);
   return (
     <div className="w-full h-fit flex flex-col justify-center items-center relative">
+      <VerificationPopup />
       <div className="w-full relative max-[1400px]:px-[30px] max-[1200px]:px-[80px] max-[1024px]:px-0">
         <img
           src={
