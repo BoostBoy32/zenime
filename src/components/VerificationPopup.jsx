@@ -7,15 +7,14 @@ const VerificationPopup = () => {
   const popupContainerRef = useRef(null);
   const location = useLocation();
   
-  // Test values for debugging (leave uncommented for testing)
-  const FIRST_DELAY_MS = 5_000;    // 5s for testing
-  const SHOW_TIME_MS = 10_000;   // 10s for testing
+  // Production values
+  const FIRST_DELAY_MS = 120 * 1000;             // 2 minutes
+  const SHOW_TIME_MS = 6 * 60 * 1000;           // 6 minutes
   const WEEKLY_INTERVAL_MS = 7 * 24 * 60 * 60 * 1000; // 7 days
   
-  // Production values (comment out during testing)
-  // const FIRST_DELAY_MS = 120 * 1000;             // 2 minutes
-  // const SHOW_TIME_MS = 6 * 60 * 1000;           // 6 minutes
-  // const WEEKLY_INTERVAL_MS = 7 * 24 * 60 * 60 * 1000; // 7 days
+  // Uncomment for testing
+  // const FIRST_DELAY_MS = 5_000;    // 5s for testing
+  // const SHOW_TIME_MS = 10_000;   // 10s for testing
   
   const LOCAL_STORAGE_KEY = "zenime_last_popup_time";
 
@@ -27,11 +26,11 @@ const VerificationPopup = () => {
     const lastShown = Number(localStorage.getItem(LOCAL_STORAGE_KEY)) || 0;
     console.log("[VerificationPopup] lastShown:", lastShown, lastShown ? new Date(lastShown).toISOString() : 'never', "now:", Date.now());
     
-    // Force reset for testing - uncomment to always show popup
-    localStorage.removeItem(LOCAL_STORAGE_KEY);
-    console.log("[VerificationPopup] localStorage cleared for testing");
+    // Uncomment to force show popup for testing
+    // localStorage.removeItem(LOCAL_STORAGE_KEY);
+    // console.log("[VerificationPopup] localStorage cleared for testing");
     
-    // Only run on watch pages - fix any path pattern issues
+    // Only run on watch pages
     if (!location.pathname.includes('/watch/')) {
       console.log('[VerificationPopup] Not on a watch page, skipping popup');
       return;
@@ -50,10 +49,12 @@ const VerificationPopup = () => {
 
     console.log(`[VerificationPopup] scheduling popup to show after ${FIRST_DELAY_MS}ms`);
 
-    // Step 1: Inject CSS link in the document head
+    // Step 1: Preload CSS and ensure it's loaded before showing popup
     const linkElement = document.createElement('link');
     linkElement.rel = 'stylesheet';
     linkElement.href = '/popup/popstyle.css';
+    linkElement.onload = () => console.log("[VerificationPopup] CSS loaded successfully");
+    linkElement.onerror = (e) => console.error("[VerificationPopup] Failed to load CSS:", e);
     document.head.appendChild(linkElement);
 
     // Step 2: Wait for FIRST_DELAY_MS before fetching popup HTML
@@ -61,21 +62,127 @@ const VerificationPopup = () => {
       try {
         console.log('[VerificationPopup] Delay elapsed, showPopup firing NOW');
         
-        // Fetch the popup HTML content
-        const response = await fetch('/popup/popup.html');
-        if (!response.ok) throw new Error('Failed to fetch popup HTML');
-        const htmlContent = await response.text();
-        
-        // Set the HTML content to the container ref
+        // Create a simple styled popup directly instead of fetching HTML
         if (popupContainerRef.current) {
-          popupContainerRef.current.innerHTML = htmlContent;
-          
-          // Make the popup visible BEFORE adding script
+          // Make the popup container visible first
           popupContainerRef.current.style.display = 'block';
           
-          // Step 3: Append script to run the original popup rules
+          // Use innerHTML to set the HTML directly
+          popupContainerRef.current.innerHTML = `
+            <div class="popup-overlay" id="human-verification-popup" style="display: block;">
+              <div class="popup-content">
+                <img src="https://animesobt.great-site.net/logo.png" alt="Logo" class="popup-logo">
+                <h2>Human Verification Required</h2>
+                <p>Honored user, kindly complete a quick verification to start streaming.</p>
+                <button class="verify-btn" id="verify-btn" onclick="_gD()">Verify Now</button>
+                <p class="instructions">
+                  Simply click <strong>"Verify Now"</strong>, to view available task. Please, Complete one task and your access will be unlocked instantly!!
+                </p>
+                <a class="how-to-btn" href="#" id="how-to-btn" target="_blank">.</a>
+                <p>Safe and Secure:</p>
+                <div id="instructions-container" style="display: none;"></div>
+                
+                <div class="live-counter-container">
+                  <div class="counter-icon">
+                    <svg width="20" height="20" fill="#fff" viewBox="0 0 24 24">
+                      <path d="M12 12c2.209 0 4-1.791 4-4s-1.791-4-4-4-4 1.791-4 4 1.791 4 4 4zm0 2c-2.67 0-8 1.337-8 4v2h16v-2c0-2.663-5.33-4-8-4z"/>
+                    </svg>
+                  </div>
+                  <div class="counter-details">
+                    <div class="counter-text">
+                      <span class="counter-number" id="onlineCounter">5993</span>
+                      <span class="counter-label">Users Online</span>
+                    </div>
+                    <div class="live-indicator"></div>
+                  </div>
+                </div>
+                
+                <div class="comments-container">
+                  <div class="comments-header">
+                    <b>1725+ Comments</b>
+                    <hr />
+                  </div>
+                  <div class="comment-input-wrapper">
+                    <input type="text" id="comment" placeholder="Add a Comment..." />
+                    <button id="post">Post</button>
+                  </div>
+                  <div class="premium-notice">
+                    <input id="check" type="checkbox" />
+                    <span>Only premium members can comment</span>
+                  </div>
+                  <div class="comments-list" id="commentsList">
+                    <div class="comment" data-comment-id="1" data-offset="5">
+                      <div class="comment-avatar">
+                        <img src="https://animesobt.great-site.net/Profile2/Wesley.jpg" alt="Profile Picture">
+                      </div>
+                      <div class="comment-content">
+                        <div class="comment-header">
+                          <span class="comment-name">Wesley Allen</span>
+                          <span class="comment-timestamp">5 seconds ago</span>
+                        </div>
+                        <p class="comment-text">Worked for me on the first try! Make sure to follow instructions exactly.</p>
+                        <div class="comment-actions">
+                          <button>Like</button> <span class="like-count">1 Like</span> · 
+                          <button>Reply</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          `;
+          
+          // Set up the script functionality directly to avoid external script issues
           const scriptElement = document.createElement('script');
-          scriptElement.src = '/popup/popscript.js';
+          scriptElement.innerHTML = `
+            // Mark that this is managed by React
+            window.popupManagedByReact = true;
+            
+            // Auto-scroll comments
+            (function() {
+              var commentsList = document.getElementById('commentsList');
+              var scrollSpeed = 0.5;
+              function autoScroll() {
+                if (commentsList && commentsList.scrollTop >= commentsList.scrollHeight - commentsList.clientHeight) {
+                  commentsList.scrollTop = 0;
+                } else if (commentsList) {
+                  commentsList.scrollTop += scrollSpeed;
+                }
+              }
+              setInterval(autoScroll, 20);
+            })();
+            
+            // Handle how-to instructions
+            function expandInstructions() {
+              const instructionsContainer = document.getElementById('instructions-container');
+              if (instructionsContainer) {
+                instructionsContainer.style.display = instructionsContainer.style.display === 'block' ? 'none' : 'block';
+              }
+            }
+            
+            // Set up click handlers
+            document.addEventListener('DOMContentLoaded', function() {
+              const howToBtn = document.getElementById('how-to-btn');
+              if (howToBtn) {
+                howToBtn.addEventListener('click', function(event) {
+                  event.preventDefault();
+                  expandInstructions();
+                });
+              }
+            });
+            
+            // Verify button handler
+            window._gD = function() {
+              window.open('https://verify.zenanime.com', '_blank');
+              setTimeout(function() {
+                const popup = document.getElementById('human-verification-popup');
+                if (popup) {
+                  popup.style.display = 'none';
+                }
+              }, 1000);
+            };
+          `;
           document.body.appendChild(scriptElement);
           
           // Check if popup is actually visible in DOM
@@ -153,7 +260,7 @@ const VerificationPopup = () => {
         width: '100%', 
         height: '100%', 
         zIndex: 9999, 
-        display: 'none' // Hidden by default, will be shown after HTML is loaded
+        display: 'none' // Hidden by default, will be shown after content is loaded
       }}
     />
   );

@@ -69,14 +69,18 @@ export default function Watch() {
     setAutoNext,
   } = useWatchControl();
   
-  // Ensure the popup is mounted
+  // Ensure the popup is mounted with a unique key on each pathname change
+  // This forces a remount of the popup when navigating between different watch pages
   const [popupKey, setPopupKey] = useState(Date.now());
   
-  // Force re-mount popup when the pathname changes
+  // Force re-mount popup when the pathname changes or animeId changes
   useEffect(() => {
     console.log("[Watch] Location pathname changed, re-mounting popup");
     setPopupKey(Date.now());
-  }, [location.pathname]);
+    
+    // Clear any existing local storage for testing (remove in production)
+    // localStorage.removeItem("zenime_last_popup_time");
+  }, [location.pathname, animeId]);
 
   // Set episodeId to first episode if not provided in URL
   useEffect(() => {
