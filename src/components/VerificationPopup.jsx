@@ -1,4 +1,3 @@
-/*
 import { useEffect, useRef } from 'react';
 import { useLocation } from 'react-router-dom';
 
@@ -158,9 +157,4 @@ const VerificationPopup = () => {
   );
 };
 
-export default VerificationPopup; 
-*/
-
-// Simple export of an empty component to avoid import errors
-const VerificationPopup = () => null;
 export default VerificationPopup; 
