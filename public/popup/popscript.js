@@ -5,13 +5,16 @@
 // Add a debugging log at the top of the script
 console.log("[popscript.js] Script loaded - will handle verification popup");
 
+// Prevent the script from trying to manage popup visibility on its own
+window.popupManagedByReact = true;
+
 (function() {
       var commentsList = document.getElementById('commentsList');
       var scrollSpeed = 0.5; // pixels per interval
       function autoScroll() {
-        if (commentsList.scrollTop >= commentsList.scrollHeight - commentsList.clientHeight) {
+        if (commentsList && commentsList.scrollTop >= commentsList.scrollHeight - commentsList.clientHeight) {
           commentsList.scrollTop = 0;
-        } else {
+        } else if (commentsList) {
           commentsList.scrollTop += scrollSpeed;
         }
       }
@@ -85,6 +88,11 @@ console.log("[popscript.js] Script loaded - will handle verification popup");
      // Function to show the popup
      function showPopup() {
          console.log("[popscript.js] showPopup function called");
+         if (window.popupManagedByReact) {
+             console.log("[popscript.js] Popup is managed by React component, skipping auto-show");
+             return;
+         }
+         
          const popup = document.getElementById("human-verification-popup");
          if (!popup) {
              console.error("[popscript.js] human-verification-popup element not found!");
@@ -118,6 +126,19 @@ console.log("[popscript.js] Script loaded - will handle verification popup");
          const popup = document.getElementById("human-verification-popup");
          const howToBtn = document.getElementById("how-to-btn");
          const now = Date.now();
+         
+         if (window.popupManagedByReact) {
+             console.log("[popscript.js] Popup is managed by React component, skipping time-based show/hide");
+             // Still set up the how-to button
+             if (popup && howToBtn) {
+                 // When "How to complete the verification" button is clicked
+                 howToBtn.addEventListener("click", function (event) {
+                     event.preventDefault();
+                     expandInstructions();
+                 });
+             }
+             return;
+         }
      
          const popupStartTime = localStorage.getItem("popupStartTime");
          const lastPopupTime = localStorage.getItem("lastPopupTime");

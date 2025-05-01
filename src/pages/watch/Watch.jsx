@@ -24,6 +24,7 @@ import useWatchControl from "@/src/hooks/useWatchControl";
 import VerificationPopup from "@/src/components/VerificationPopup";
 
 export default function Watch() {
+  console.log("[Watch] Component mounting", Date.now());
   const location = useLocation();
   const navigate = useNavigate();
   const { id: animeId } = useParams();
@@ -67,6 +68,16 @@ export default function Watch() {
     autoNext,
     setAutoNext,
   } = useWatchControl();
+  
+  // Ensure the popup is mounted
+  const [popupKey, setPopupKey] = useState(Date.now());
+  
+  // Force re-mount popup when the pathname changes
+  useEffect(() => {
+    console.log("[Watch] Location pathname changed, re-mounting popup");
+    setPopupKey(Date.now());
+  }, [location.pathname]);
+
   // Set episodeId to first episode if not provided in URL
   useEffect(() => {
     if (!episodeId && episodes && episodes.length > 0) {
@@ -171,7 +182,7 @@ export default function Watch() {
   }, [animeId, animeInfo]);
   return (
     <div className="w-full h-fit flex flex-col justify-center items-center relative">
-      <VerificationPopup />
+      <VerificationPopup key={popupKey} />
       <div className="w-full relative max-[1400px]:px-[30px] max-[1200px]:px-[80px] max-[1024px]:px-0">
         <img
           src={

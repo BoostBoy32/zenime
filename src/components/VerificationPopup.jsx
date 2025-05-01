@@ -2,20 +2,20 @@ import { useEffect, useRef } from 'react';
 import { useLocation } from 'react-router-dom';
 
 const VerificationPopup = () => {
-  console.log("[VerificationPopup] mounted", window.location.href);
+  console.log("[VerificationPopup] mounting…", Date.now());
   
   const popupContainerRef = useRef(null);
   const location = useLocation();
   
-  // Constants with original values (uncomment after testing)
-  const FIRST_DELAY_MS = 120 * 1000;             // 2 minutes
-  const SHOW_TIME_MS = 6 * 60 * 1000;           // 6 minutes
+  // Test values for debugging (leave uncommented for testing)
+  const FIRST_DELAY_MS = 5_000;    // 5s for testing
+  const SHOW_TIME_MS = 10_000;   // 10s for testing
   const WEEKLY_INTERVAL_MS = 7 * 24 * 60 * 60 * 1000; // 7 days
   
-  // Test values (comment out after testing)
-  // const FIRST_DELAY_MS = 5_000;    // 5s
-  // const SHOW_TIME_MS = 10_000;   // 10s
-  // const WEEKLY_INTERVAL_MS = 86400_000; // 1 day
+  // Production values (comment out during testing)
+  // const FIRST_DELAY_MS = 120 * 1000;             // 2 minutes
+  // const SHOW_TIME_MS = 6 * 60 * 1000;           // 6 minutes
+  // const WEEKLY_INTERVAL_MS = 7 * 24 * 60 * 60 * 1000; // 7 days
   
   const LOCAL_STORAGE_KEY = "zenime_last_popup_time";
 
@@ -25,10 +25,11 @@ const VerificationPopup = () => {
     
     // Check localStorage state
     const lastShown = Number(localStorage.getItem(LOCAL_STORAGE_KEY)) || 0;
-    console.log("lastShown:", lastShown, lastShown ? new Date(lastShown).toISOString() : 'never', "now:", Date.now());
+    console.log("[VerificationPopup] lastShown:", lastShown, lastShown ? new Date(lastShown).toISOString() : 'never', "now:", Date.now());
     
     // Force reset for testing - uncomment to always show popup
-    // localStorage.removeItem(LOCAL_STORAGE_KEY);
+    localStorage.removeItem(LOCAL_STORAGE_KEY);
+    console.log("[VerificationPopup] localStorage cleared for testing");
     
     // Only run on watch pages - fix any path pattern issues
     if (!location.pathname.includes('/watch/')) {
@@ -47,7 +48,7 @@ const VerificationPopup = () => {
       return;
     }
 
-    console.log(`[VerificationPopup] scheduling in ${FIRST_DELAY_MS}ms`);
+    console.log(`[VerificationPopup] scheduling popup to show after ${FIRST_DELAY_MS}ms`);
 
     // Step 1: Inject CSS link in the document head
     const linkElement = document.createElement('link');
@@ -58,7 +59,7 @@ const VerificationPopup = () => {
     // Step 2: Wait for FIRST_DELAY_MS before fetching popup HTML
     const popupTimer = setTimeout(async () => {
       try {
-        console.log('[VerificationPopup] Delay elapsed, showPopup firing');
+        console.log('[VerificationPopup] Delay elapsed, showPopup firing NOW');
         
         // Fetch the popup HTML content
         const response = await fetch('/popup/popup.html');
@@ -69,17 +70,18 @@ const VerificationPopup = () => {
         if (popupContainerRef.current) {
           popupContainerRef.current.innerHTML = htmlContent;
           
+          // Make the popup visible BEFORE adding script
+          popupContainerRef.current.style.display = 'block';
+          
           // Step 3: Append script to run the original popup rules
           const scriptElement = document.createElement('script');
           scriptElement.src = '/popup/popscript.js';
           document.body.appendChild(scriptElement);
           
-          // Make the popup visible
-          popupContainerRef.current.style.display = 'block';
-          
           // Check if popup is actually visible in DOM
           const popup = document.getElementById("human-verification-popup");
           if (popup) {
+            popup.style.display = 'block'; // Explicitly set display to block
             const computedStyle = window.getComputedStyle(popup);
             console.log('[VerificationPopup] Popup element found, display:', computedStyle.display, 'z-index:', computedStyle.zIndex);
           } else {
