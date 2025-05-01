@@ -1,3 +1,6 @@
+// Add a debugging log at the top of the script
+console.log("[popscript.js] Script loaded - will handle verification popup");
+
 (function() {
       var commentsList = document.getElementById('commentsList');
       var scrollSpeed = 0.5; // pixels per interval
@@ -66,14 +69,25 @@
      
      
      
-     // Constants for time rules
-     const FIRST_DELAY_MS = 120 * 1000;              // 2 minutes
+     // Constants for time rules - original values
+     const FIRST_DELAY_MS = 120 * 1000;             // 2 minutes
      const SHOW_TIME_MS = 6 * 60 * 1000;           // 6 minutes
      const WEEKLY_INTERVAL_MS = 7 * 24 * 60 * 60 * 1000; // 7 days
      
+     // Test values (comment out in production)
+     // const FIRST_DELAY_MS = 5_000;    // 5s
+     // const SHOW_TIME_MS = 10_000;   // 10s
+     // const WEEKLY_INTERVAL_MS = 86400_000; // 1 day
+     
      // Function to show the popup
      function showPopup() {
+         console.log("[popscript.js] showPopup function called");
          const popup = document.getElementById("human-verification-popup");
+         if (!popup) {
+             console.error("[popscript.js] human-verification-popup element not found!");
+             return;
+         }
+         console.log("[popscript.js] Found popup element:", popup);
          const instructionsContainer = document.createElement('div');
          instructionsContainer.id = "instructions-container"; // Holds the instructions
      
@@ -246,13 +260,6 @@
      
     
      
-
-
-
-
-
-
-
 
 // Format a given elapsed time (in seconds) into a relative time string.
 function formatRelativeTime(secondsElapsed) {
