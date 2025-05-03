@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import '/popup/popstyle.css';
 
 const VerificationPopup = () => {
   /*
