@@ -21,7 +21,6 @@ import SidecardLoader from "@/src/components/Loader/Sidecard.loader";
 import Voiceactor from "@/src/components/voiceactor/Voiceactor";
 import Watchcontrols from "@/src/components/watchcontrols/Watchcontrols";
 import useWatchControl from "@/src/hooks/useWatchControl";
-import VerificationPopup from "@/src/components/VerificationPopup";
 
 export default function Watch() {
   console.log("[Watch] Component mounting", Date.now());
@@ -69,19 +68,6 @@ export default function Watch() {
     setAutoNext,
   } = useWatchControl();
   
-  // Ensure the popup is mounted with a unique key on each pathname change
-  // This forces a remount of the popup when navigating between different watch pages
-  const [popupKey, setPopupKey] = useState(Date.now());
-  
-  // Force re-mount popup when the pathname changes or animeId changes
-  useEffect(() => {
-    console.log("[Watch] Location pathname changed, re-mounting popup");
-    setPopupKey(Date.now());
-    
-    // Clear any existing local storage for testing (remove in production)
-    // localStorage.removeItem("zenime_last_popup_time");
-  }, [location.pathname, animeId]);
-
   // Set episodeId to first episode if not provided in URL
   useEffect(() => {
     if (!episodeId && episodes && episodes.length > 0) {
@@ -186,7 +172,6 @@ export default function Watch() {
   }, [animeId, animeInfo]);
   return (
     <div className="w-full h-fit flex flex-col justify-center items-center relative">
-      <VerificationPopup key={popupKey} />
       <div className="w-full relative max-[1400px]:px-[30px] max-[1200px]:px-[80px] max-[1024px]:px-0">
         <img
           src={

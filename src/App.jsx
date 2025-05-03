@@ -15,7 +15,6 @@ import Search from "./pages/search/Search";
 import Watch from "./pages/watch/Watch";
 import Producer from "./components/producer/Producer";
 import SplashScreen from "./components/splashscreen/SplashScreen";
-import VerificationPopup from "./components/VerificationPopup";
 // Import the custom hook for external scripts
 import useExternalScript from "./hooks/useExternalScript";
 
@@ -31,15 +30,6 @@ function App() {
       window.gtag = function() { window.dataLayer.push(arguments); };
       window.gtag('js', new Date());
       window.gtag('config', 'G-PFTJHZMK04');
-    }
-  });
-
-  // Load external verification script
-  useExternalScript({
-    url: 'https://d2v7l2267atlz5.cloudfront.net/cd57196.js',
-    defer: true,
-    beforeInject: () => {
-      window.ArSRo_yjH_kyQtBc = {"it":4430040,"key":"a9946"};
     }
   });
 
@@ -89,8 +79,6 @@ function App() {
           </Routes>
           {!isSplashScreen && <Footer />}
         </main>
-        {/* VerificationPopup is mounted at the app root level to overlay the entire viewport */}
-        <VerificationPopup />
       </div>
     </HomeInfoProvider>
   );
