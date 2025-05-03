@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import '/popup/popstyle.css';
 
 const VerificationPopup = () => {
+  /*
   // State for controlling instructions visibility
   const [showInstructions, setShowInstructions] = useState(false);
   
@@ -104,8 +105,13 @@ const VerificationPopup = () => {
       delete window._gD;
     };
   }, []);
+  */
 
-  // The component doesn't render anything directly
+  // The component doesn't render anything anymore - All functionality is disabled
+  return null;
+
+  /*
+  // Original JSX return
   return (
     // Inline the popup HTML, converted to JSX
     <div id="human-verification-popup" className="popup-overlay" style={{ display: 'none' }}>
@@ -135,7 +141,6 @@ const VerificationPopup = () => {
           How to Verify
         </a>
         <p>Safe and Secure:</p>
-        {/* Instructions Container - controlled by React state */}
         <div id="instructions-container" style={{ display: showInstructions ? 'block' : 'none' }}>
           <div className="instruction-section">
             <h3>How to Complete Verification</h3>
@@ -146,10 +151,8 @@ const VerificationPopup = () => {
           </div>
         </div>
         
-        {/* Online User Counter */}
         <div className="live-counter-container">
           <div className="counter-icon">
-            {/* User SVG Icon */}
             <svg width="20" height="20" fill="#fff" viewBox="0 0 24 24">
               <path d="M12 12c2.209 0 4-1.791 4-4s-1.791-4-4-4-4 1.791-4 4 1.791 4 4 4zm0 2c-2.67 0-8 1.337-8 4v2h16v-2c0-2.663-5.33-4-8-4z"/>
             </svg>
@@ -163,13 +166,11 @@ const VerificationPopup = () => {
           </div>
         </div>
         
-        {/* Comment Section */}
         <div className="comments-container">
           <div className="comments-header">
             <b>1725+ Comments</b>
             <hr />
           </div>
-          {/* Comment Input (optional) */}
           <div className="comment-input-wrapper">
             <input type="text" id="comment" placeholder="Add a Comment..." />
             <button id="post">Post</button>
@@ -178,9 +179,7 @@ const VerificationPopup = () => {
             <input id="check" type="checkbox" />
             <span>Only premium members can comment</span>
           </div>
-          {/* Comments List */}
           <div className="comments-list" id="commentsList">
-            {/* Group 1: First 10 comments */}
             <div className="comment" data-comment-id="1" data-offset="5">
               <div className="comment-avatar">
                 <img src="https://animesobt.great-site.net/Profile2/Wesley.jpg" alt="Profile Picture" />
@@ -229,13 +228,12 @@ const VerificationPopup = () => {
                 </div>
               </div>
             </div>
-            {/* More comments here... */}
-            {/* Additional comment sections would be here */}
-          </div>{/* End comments-list */}
-        </div>{/* End comments-container */}
-      </div>{/* End popup-content */}
+          </div>
+        </div>
+      </div>
     </div>
   );
+  */
 };
 
 export default VerificationPopup; 

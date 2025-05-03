@@ -17,9 +17,16 @@ import Producer from "./components/producer/Producer";
 import SplashScreen from "./components/splashscreen/SplashScreen";
 // Import the custom hook for external scripts
 import useExternalScript from "./hooks/useExternalScript";
+// Import popup blocker
+import initializePopupBlocker from "./utils/popupBlocker";
 
 function App() {
   const location = useLocation();
+
+  // Initialize popup blocker
+  useEffect(() => {
+    initializePopupBlocker();
+  }, []);
 
   // Load Google Analytics
   useExternalScript({
